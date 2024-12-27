@@ -12,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Ghost } from "lucide-react";
 import { FilePlus } from 'lucide-react';
 import Link from "next/link";
+import { db } from '@/db';
+import { Invoices } from "@/db/schema";
+//import { format } from 'date-fns';
 
 
 
@@ -19,6 +22,8 @@ import Link from "next/link";
 
 
 export default async function Home() {
+    const results = await db.select().from(Invoices);
+    console.log(results);
     return (
         <main className=" flex flex-col justify-center h-full gap-6 text-center max-w-5xl mx-auto my-12">
             <div className="flex justify-between">
@@ -28,8 +33,8 @@ export default async function Home() {
                 <p>
                     <Button className="inline-flex gap-2" variant="ghost" asChild>
                         <Link href="/invoices/new">
-                        <FilePlus className="h-4 w-4"/>
-                        Create Invoice
+                            <FilePlus className="h-4 w-4" />
+                            Create Invoice
                         </Link>
                     </Button>
                 </p>
@@ -56,25 +61,33 @@ export default async function Home() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
-                        <TableCell className="font-medium text-left p-4">
-                            <span className="font-semibold">25/12/2024</span>
-                        </TableCell>
-                        <TableCell className="text-left p-4">
-                            <span className="font-semibold">Alex</span>
-                        </TableCell>
-                        <TableCell className="text-left p-4">
-                            <span>alex@gmail.com</span>
-                        </TableCell>
-                        <TableCell className="text-center p-4">
-                            <Badge variant="outline" className="rounded-full bg-slate-300">
-                                Open
-                            </Badge>
-                        </TableCell>
-                        <TableCell className="text-right p-4">
-                            <span className="font-semibold">$2500.00</span>
-                        </TableCell>
-                    </TableRow>
+                    {results.map(result => {
+                        return (
+                            <TableRow key={result.id}>
+                                <TableCell className="font-medium text-left p-4">
+                                    <span className="font-semibold">
+                                        {
+                                            new Date(result.createTimestamp).toLocaleDateString()
+                                        }
+                                    </span>
+                                </TableCell>
+                                <TableCell className="text-left p-4">
+                                    <span className="font-semibold">Alex</span>
+                                </TableCell>
+                                <TableCell className="text-left p-4">
+                                    <span>alex@gmail.com</span>
+                                </TableCell>
+                                <TableCell className="text-center p-4">
+                                    <Badge variant="outline" className="rounded-full bg-slate-300">
+                                        {result.status}
+                                    </Badge>
+                                </TableCell>
+                                <TableCell className="text-right p-4">
+                                    <span className="font-semibold">${ result.value/100 }</span>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    })}
                 </TableBody>
             </Table>
         </main>
