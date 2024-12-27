@@ -64,26 +64,32 @@ export default async function Home() {
                     {results.map(result => {
                         return (
                             <TableRow key={result.id}>
-                                <TableCell className="font-medium text-left p-4">
-                                    <span className="font-semibold">
+                                <TableCell className="font-medium text-left">
+                                    <Link href={`/invoices/${result.id}`} className="font-semibold  p-4">
                                         {
                                             new Date(result.createTimestamp).toLocaleDateString()
                                         }
-                                    </span>
+                                    </Link>
                                 </TableCell>
-                                <TableCell className="text-left p-4">
-                                    <span className="font-semibold">Alex</span>
+                                <TableCell className="text-left">
+                                    <Link href={`/invoices/${result.id}`} className="p-4 font-semibold">
+                                        Alex
+                                    </Link>
                                 </TableCell>
-                                <TableCell className="text-left p-4">
-                                    <span>alex@gmail.com</span>
+                                <TableCell className="text-left">
+                                    <Link className="p-4" href={`/invoices/${result.id}`}>
+                                        alex@gmail.com
+                                    </Link>
                                 </TableCell>
-                                <TableCell className="text-center p-4">
-                                    <Badge variant="outline" className="rounded-full bg-slate-300">
-                                        {result.status}
-                                    </Badge>
+                                <TableCell className="text-center">
+                                    <Link className="p-4" href={`/invoices/${result.id}`}>
+                                        <Badge variant="outline" className="rounded-full bg-slate-300">
+                                            {result.status}
+                                        </Badge>
+                                    </Link>
                                 </TableCell>
-                                <TableCell className="text-right p-4">
-                                    <span className="font-semibold">${ result.value/100 }</span>
+                                <TableCell className="text-right">
+                                    <Link href={`/invoices/${result.id}`} className=" p-4 font-semibold">${(result.value / 100).toFixed(2)}</Link>
                                 </TableCell>
                             </TableRow>
                         )
