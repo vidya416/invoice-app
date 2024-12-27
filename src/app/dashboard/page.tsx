@@ -17,7 +17,8 @@ import Link from "next/link";
 
 
 
-export default function Home() {
+
+export default async function Home() {
     return (
         <main className=" flex flex-col justify-center h-full gap-6 text-center max-w-5xl mx-auto my-12">
             <div className="flex justify-between">
