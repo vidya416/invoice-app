@@ -14,6 +14,7 @@ import { FilePlus } from 'lucide-react';
 import Link from "next/link";
 import { db } from '@/db';
 import { Invoices } from "@/db/schema";
+import { cn } from "@/lib/utils";
 //import { format } from 'date-fns';
 
 
@@ -83,7 +84,13 @@ export default async function Home() {
                                 </TableCell>
                                 <TableCell className="text-center">
                                     <Link className="p-4" href={`/invoices/${result.id}`}>
-                                        <Badge variant="outline" className="rounded-full bg-slate-300">
+                                        <Badge variant="outline" className={cn(
+                                            "rounded-full capitalize",
+                                            result.status === "open" && 'bg-blue-500',
+                                            result.status === "paid" && 'bg-green-600',
+                                            result.status === "ongoing" && 'bg-zinc-600',
+                                            result.status === "failed" && 'bg-red-500'
+                                        )}>
                                             {result.status}
                                         </Badge>
                                     </Link>
